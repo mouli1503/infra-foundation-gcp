@@ -1,0 +1,23 @@
+
+project_id = "sup-internal-apps"
+region     = "asia-south1"
+domain     = "apps.internal.supertails.com"
+
+# route_key = subdomain (e.g. hello -> hello.apps.internal.supertails.com)
+routes = {
+  hello   = "hello"
+  hello21 = "hello-21"
+  testing = "testing-repo1"
+}
+
+# IAP callback GET / must use an IAP-protected route (e.g. hello) so IAP redirects back to the app; that backend must return 200 for GET /
+iap_callback_route = "hello"
+
+iap_protected_routes = ["hello", "hello21"]
+
+iap_oauth_client_id = "158581135398-eft452itu9n28iko8ooevml29c3pp3t8.apps.googleusercontent.com"
+iap_oauth_client_secret_secret_id = "iap-oauth-client-secret"
+
+iap_access_members = [
+  "group:product_team@supertails.com"
+]
