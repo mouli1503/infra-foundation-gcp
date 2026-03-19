@@ -4,11 +4,22 @@ resource "google_project_service" "apis" {
     "compute.googleapis.com",
     "run.googleapis.com",
     "iap.googleapis.com",
+    "iam.googleapis.com",
     "secretmanager.googleapis.com"
   ])
 
   service            = each.value
   disable_on_destroy = false
+}
+
+# Provisions the IAP service agent in the project (fixes "IAP service account is not provisioned").
+resource "google_project_service_identity" "iap_sa" {
+  provider = google-beta
+
+  project = var.project_id
+  service = "iap.googleapis.com"
+
+  depends_on = [google_project_service.apis]
 }
 
 data "google_secret_manager_secret_version" "iap_secret" {
@@ -118,4 +129,20 @@ resource "google_iap_web_backend_service_iam_binding" "iap_access" {
   web_backend_service = google_compute_backend_service.backend[each.key].name
   role                = "roles/iap.httpsResourceAccessor"
   members             = tolist(lookup(var.iap_route_access, each.key, var.iap_access_members))
+}
+
+data "google_project" "project" {
+  project_id = var.project_id
+}
+
+# HTTPS LB + serverless NEG: allow Google's Serverless robot to invoke each Cloud Run service.
+resource "google_cloud_run_service_iam_member" "lb_serverless_neg_invoker" {
+  for_each = var.routes
+
+  project  = var.project_id
+  location = var.region
+  service  = each.value
+
+  role   = "roles/run.invoker"
+  member = "serviceAccount:service-${data.google_project.project.number}@serverless-robot-prod.iam.gserviceaccount.com"
 }

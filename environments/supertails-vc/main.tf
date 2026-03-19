@@ -4,11 +4,35 @@ resource "google_project_service" "apis" {
     "compute.googleapis.com",
     "run.googleapis.com",
     "iap.googleapis.com",
+    "iam.googleapis.com",
     "secretmanager.googleapis.com"
   ])
 
   service            = each.value
   disable_on_destroy = false
+}
+
+# Provisions the IAP service agent in the project (fixes "IAP service account is not provisioned").
+resource "google_project_service_identity" "iap_sa" {
+  provider = google-beta
+
+  project = var.project_id
+  service = "iap.googleapis.com"
+
+  depends_on = [google_project_service.apis]
+}
+
+# OAuth consent screen title for IAP ("Sign in to continue to …"). One brand per project.
+# If apply fails with brand already exists: import with
+#   terraform import 'google_iap_brand.oauth[0]' projects/$(gcloud projects describe PROJECT_ID --format='value(projectNumber)')/brands/BRAND_ID
+resource "google_iap_brand" "oauth" {
+  count = var.iap_oauth_support_email != "" ? 1 : 0
+
+  project           = var.project_id
+  application_title = var.iap_oauth_application_title
+  support_email     = var.iap_oauth_support_email
+
+  depends_on = [google_project_service.apis]
 }
 
 data "google_secret_manager_secret_version" "iap_secret" {
@@ -118,4 +142,17 @@ resource "google_iap_web_backend_service_iam_binding" "iap_access" {
   web_backend_service = google_compute_backend_service.backend[each.key].name
   role                = "roles/iap.httpsResourceAccessor"
   members             = tolist(lookup(var.iap_route_access, each.key, var.iap_access_members))
+}
+
+# HTTPS LB + serverless NEG: Cloud Run must allow the Serverless robot to invoke the service.
+# Uses data.google_project.project from workload-identity.tf (same module).
+resource "google_cloud_run_service_iam_member" "lb_serverless_neg_invoker" {
+  for_each = var.routes
+
+  project  = var.project_id
+  location = var.region
+  service  = each.value
+
+  role   = "roles/run.invoker"
+  member = "serviceAccount:service-${data.google_project.project.number}@serverless-robot-prod.iam.gserviceaccount.com"
 }
