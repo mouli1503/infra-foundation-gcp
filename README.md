@@ -1,31 +1,36 @@
-
 # Terraform: Cloud Run + HTTPS Load Balancer + IAP
 
 ## Architecture
+
 Internet → HTTPS Load Balancer → URL Map → Backend Services → Cloud Run
 
-**Host-based routing (wildcard):** Each route = subdomain. No path rewrite, so IAP redirects work correctly.
-- hello.apps.internal.supertails.com → Cloud Run hello
-- testing.apps.internal.supertails.com → Cloud Run testing
-- apps.internal.supertails.com (apex) → IAP callback / default
+**Host-based routing:** Each route = subdomain (e.g. hello.apps.internal.supertails.com → Cloud Run hello).
 
-## Setup
+## Project structure (separate directories)
 
-1. Install Terraform
-2. Authenticate to GCP
+Terraform config lives under `environments/` — one directory per GCP project:
 
+| Directory | Project |
+|-----------|---------|
+| `environments/supertails-internal/` | SuperTails Internal Apps (sup-internal-apps) |
+| `environments/supertails-vc/` | SuperTailsVC |
+
+See [environments/README.md](environments/README.md) for usage.
+
+## Deploy
+
+**SuperTails Internal Apps:**
+```bash
+cd environments/supertails-internal
+terraform init
+terraform plan
+terraform apply
 ```
-gcloud auth application-default login
-```
 
-3. Copy tfvars
-```
-cp terraform.tfvars.example terraform.tfvars
-```
-
-4. Run
-
-```
+**SuperTailsVC:**
+```bash
+cd environments/supertails-vc
+# Edit terraform.tfvars first
 terraform init
 terraform plan
 terraform apply
@@ -33,36 +38,15 @@ terraform apply
 
 ## DNS (GoDaddy)
 
-Add **wildcard** A record so all subdomains resolve to the load balancer:
+Add **wildcard** A record so subdomains resolve to the load balancer:
 
 | Type | Host | Value |
 |------|------|-------|
 | A | `*.apps.internal` | `<load_balancer_ip>` from terraform output |
 
-Optional: keep apex `apps.internal` → load balancer IP for apps.internal.supertails.com.
-
 ## IAP callback
 
-After sign-in, IAP sends users to **GET /** with query params. That request must get **200** or the callback fails with 500.
+After sign-in, IAP sends users to **GET /** with query params. That request must return **200** or the callback fails.
 
-1. Set iap_callback_route to a route that returns **200** for **GET /** (e.g. testing).
-2. Prefer using an IAP-protected route as default (e.g. `default_route = "hello"`) so you don’t land on a different app after login. If you use a non-IAP route (e.g. `default_route = "testing"`), users may see that app after signing in instead of the one they requested.
-
-## Add new Cloud Run route
-
-Edit terraform.tfvars:
-
-```
-routes = {
-  app1 = "cloudrun-app1"
-  app2 = "cloudrun-app2"
-  admin = "cloudrun-admin"
-}
-```
-
-Run:
-```
-terraform apply
-```
-# infra-foundation-gcp
-# infra-foundation-gcp
+- Set `iap_callback_route` to a route that returns 200 for GET /.
+- Use an IAP-protected route as default so users land on the right app after login.
