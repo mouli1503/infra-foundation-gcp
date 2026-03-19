@@ -32,18 +32,6 @@ variable "iap_oauth_client_secret_secret_id" {
   type        = string
 }
 
-variable "iap_oauth_application_title" {
-  description = "Name shown on the Google sign-in / OAuth consent screen for IAP (e.g. SuperTails VC)"
-  type        = string
-  default     = "SuperTails VC"
-}
-
-variable "iap_oauth_support_email" {
-  description = "Contact email on the OAuth consent screen; required to create the IAP OAuth brand (one per project). If empty, skip managing google_iap_brand in Terraform."
-  type        = string
-  default     = ""
-}
-
 variable "iap_access_members" {
   description = "Default IAP members (used for routes not in iap_route_access)"
   type        = set(string)

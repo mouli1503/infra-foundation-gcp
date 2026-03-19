@@ -22,19 +22,6 @@ resource "google_project_service_identity" "iap_sa" {
   depends_on = [google_project_service.apis]
 }
 
-# OAuth consent screen title for IAP ("Sign in to continue to …"). One brand per project.
-# If apply fails with brand already exists: import with
-#   terraform import 'google_iap_brand.oauth[0]' projects/$(gcloud projects describe PROJECT_ID --format='value(projectNumber)')/brands/BRAND_ID
-resource "google_iap_brand" "oauth" {
-  count = var.iap_oauth_support_email != "" ? 1 : 0
-
-  project           = var.project_id
-  application_title = var.iap_oauth_application_title
-  support_email     = var.iap_oauth_support_email
-
-  depends_on = [google_project_service.apis]
-}
-
 data "google_secret_manager_secret_version" "iap_secret" {
   secret  = var.iap_oauth_client_secret_secret_id
   version = "latest"
