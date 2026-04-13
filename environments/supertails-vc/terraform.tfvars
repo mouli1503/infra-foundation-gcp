@@ -10,7 +10,7 @@ routes = {
   # example = "example-service"
   atc = "supertails-atc"
   atc-staging = "supertails-atc-staging"
-
+  cx-helper = "nugget-smartplug"
 }
 
 iap_callback_route = null  # Set to route key if using IAP callback

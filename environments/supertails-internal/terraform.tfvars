@@ -10,11 +10,12 @@ routes = {
   pma-staging = "performance-marketing-agent-staging"
   cx-analysts-api="cx-data-analysts"
   cx-analysts-api-staging="cx-data-analysts-staging"
+  henlo-creative="henlo-creative"
 }
 
 iap_callback_route = null
 
-iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging"]
+iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative"]
 
 iap_oauth_client_id             = "158581135398-eft452itu9n28iko8ooevml29c3pp3t8.apps.googleusercontent.com"
 iap_oauth_client_secret_secret_id = "iap-oauth-client-secret"
@@ -30,4 +31,5 @@ iap_route_access = {
   "pma-staging" = ["group:product_team@supertails.com", "group:crm-decision-engine@supertails.com"]
   "cx-analysts-api" = ["group:product_team@supertails.com", "group:cx.apps@supertails.com"]
   "cx-analysts-api-staging" = ["group:product_team@supertails.com", "group:cx.apps@supertails.com"]
+  "henlo-creative" = ["group:product_team@supertails.com", "group:henlo-creative@supertails.com", "user:stalinlovespets@supertails.com"]
 }
