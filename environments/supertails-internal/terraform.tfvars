@@ -11,6 +11,7 @@ routes = {
   cx-analysts-api="cx-data-analysts"
   cx-analysts-api-staging="cx-data-analysts-staging"
   henlo-creative="henlo-creative"
+  atlas = "atlas"
 }
 
 iap_callback_route = null

@@ -66,7 +66,7 @@ variable "enable_github_workload_identity" {
 }
 
 variable "github_workload_identity_repos" {
-  description = "List of GitHub repos (owner/repo) allowed to use Workload Identity. e.g. [\"SupertailsPCPL/supertails-atc\"]"
+  description = "List of GitHub repositories/patterns allowed to use Workload Identity. Supports exact repo (owner/repo) and org-wide pattern (owner/*). e.g. [\"SupertailsPCPL/supertails-atc\", \"SupertailsPCPL/*\"]"
   type        = list(string)
   default     = []
 }

@@ -7,30 +7,39 @@ data "google_project" "project" {
   project_id = var.project_id
 }
 
+locals {
+  github_workload_identity_conditions = [
+    for repo in var.github_workload_identity_repos :
+    endswith(repo, "/*")
+    ? "assertion.repository_owner == '${trimsuffix(repo, "/*")}'"
+    : "assertion.repository == '${repo}'"
+  ]
+}
+
 # Enable IAM Credentials API (required for Workload Identity Federation)
 resource "google_project_service" "iam_credentials" {
-  count            = var.enable_github_workload_identity ? 1 : 0
-  service          = "iamcredentials.googleapis.com"
+  count              = var.enable_github_workload_identity ? 1 : 0
+  service            = "iamcredentials.googleapis.com"
   disable_on_destroy = false
 }
 
 resource "google_iam_workload_identity_pool" "github" {
-  count                       = var.enable_github_workload_identity ? 1 : 0
-  workload_identity_pool_id   = "github-actions"
-  display_name                = "GitHub Actions"
-  description                 = "Workload Identity Pool for GitHub Actions OIDC"
-  project                     = var.project_id
+  count                     = var.enable_github_workload_identity ? 1 : 0
+  workload_identity_pool_id = "github-actions"
+  display_name              = "GitHub Actions"
+  description               = "Workload Identity Pool for GitHub Actions OIDC"
+  project                   = var.project_id
 
   depends_on = [google_project_service.iam_credentials]
 }
 
 resource "google_iam_workload_identity_pool_provider" "github" {
-  count                            = var.enable_github_workload_identity ? 1 : 0
-  workload_identity_pool_id         = google_iam_workload_identity_pool.github[0].workload_identity_pool_id
+  count                              = var.enable_github_workload_identity ? 1 : 0
+  workload_identity_pool_id          = google_iam_workload_identity_pool.github[0].workload_identity_pool_id
   workload_identity_pool_provider_id = "github-oidc"
-  display_name                     = "GitHub OIDC"
-  description                      = "OIDC provider for GitHub Actions"
-  project                          = var.project_id
+  display_name                       = "GitHub OIDC"
+  description                        = "OIDC provider for GitHub Actions"
+  project                            = var.project_id
 
   attribute_mapping = {
     "google.subject"             = "assertion.sub"
@@ -40,7 +49,7 @@ resource "google_iam_workload_identity_pool_provider" "github" {
     "attribute.aud"              = "assertion.aud"
   }
 
-  attribute_condition = var.github_workload_identity_repos != [] ? "assertion.repository in [${join(", ", formatlist("'%s'", var.github_workload_identity_repos))}]" : null
+  attribute_condition = local.github_workload_identity_conditions != [] ? join(" || ", local.github_workload_identity_conditions) : null
 
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
