@@ -1,0 +1,14 @@
+project_id  = "sup-internal-apps"
+region      = "asia-south1"
+project_number = "158581135398"
+workload_identity_pool_id     = "github-actions"
+workload_identity_provider_id = "github-oidc"
+github_repository             = "SupertailsPCPL/performance-marketing-agent"
+
+cloud_run_job_names = [
+  "pma-v2-ingestion",
+  "pma-v2-engine-cycle",
+  "pma-v2-execute",
+  "pma-v2-auto-revert",
+  "pma-v2-outcome-tracker"
+]
