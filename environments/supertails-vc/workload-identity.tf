@@ -16,6 +16,13 @@ locals {
   ]
 }
 
+# Enable IAM Credentials API (required for Workload Identity Federation)
+resource "google_project_service" "iam_credentials" {
+  count              = var.enable_github_workload_identity ? 1 : 0
+  service            = "iamcredentials.googleapis.com"
+  disable_on_destroy = false
+}
+
 resource "google_iam_workload_identity_pool" "github" {
   count                     = var.enable_github_workload_identity ? 1 : 0
   workload_identity_pool_id = "github-actions"
@@ -23,7 +30,7 @@ resource "google_iam_workload_identity_pool" "github" {
   description               = "Workload Identity Pool for GitHub Actions OIDC"
   project                   = var.project_id
 
-  depends_on = [google_project_service.apis]
+  depends_on = [google_project_service.iam_credentials]
 }
 
 resource "google_iam_workload_identity_pool_provider" "github" {

@@ -5,9 +5,7 @@ resource "google_project_service" "apis" {
     "run.googleapis.com",
     "iap.googleapis.com",
     "iam.googleapis.com",
-    "secretmanager.googleapis.com",
-    "cloudscheduler.googleapis.com",
-    "iamcredentials.googleapis.com"
+    "secretmanager.googleapis.com"
   ])
 
   service            = each.value
