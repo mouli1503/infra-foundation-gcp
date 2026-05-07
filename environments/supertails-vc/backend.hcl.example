@@ -1,2 +1,2 @@
 bucket = "supertails-vc-tfstate"
-prefix = "terraform"
+prefix = "supertails-vc"

@@ -1,2 +1,2 @@
 bucket = "sup-internal-apps-tfstate"
-prefix = "terraform"
+prefix = "supertails-internal"
