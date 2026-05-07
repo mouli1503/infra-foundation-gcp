@@ -12,11 +12,12 @@ routes = {
   cx-analysts-api-staging="cx-data-analysts-staging"
   henlo-creative="henlo-creative"
   atlas = "atlas"
+  dsops="dropship-ops-automator"
 }
 
 iap_callback_route = null
 
-iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative"]
+iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative", "dsops"]
 
 iap_oauth_client_id             = "158581135398-eft452itu9n28iko8ooevml29c3pp3t8.apps.googleusercontent.com"
 iap_oauth_client_secret_secret_id = "iap-oauth-client-secret"
@@ -33,4 +34,5 @@ iap_route_access = {
   "cx-analysts-api" = ["group:product_team@supertails.com", "group:cx.apps@supertails.com"]
   "cx-analysts-api-staging" = ["group:product_team@supertails.com", "group:cx.apps@supertails.com"]
   "henlo-creative" = ["group:product_team@supertails.com", "group:henlo-creative@supertails.com", "user:stalinlovespets@supertails.com"]
+  "dsops": ["group:product_team@supertails.com", "group:dropship-ops@supertails.com"]
 }

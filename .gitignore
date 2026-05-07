@@ -1,1 +1,29 @@
+# Terraform local working directories and lockfiles
+.terraform/
 *.terraform
+*.terraform.lock.hcl
+
+# Terraform state - MUST be stored in GCS backend, never in git
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Plan output
+*.tfplan
+crash.log
+crash.*.log
+
+# Local backend config (may contain bucket names / impersonation SA)
+backend.hcl
+
+# Local override files (may contain secrets)
+*.tfvars.local
+*_override.tf
+*_override.tf.json
+override.tf
+override.tf.json
+
+# OS / editor cruft
+.DS_Store
+.idea/
+.vscode/
