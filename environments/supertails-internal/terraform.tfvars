@@ -33,6 +33,6 @@ iap_route_access = {
   "pma-staging" = ["group:product_team@supertails.com", "group:crm-decision-engine@supertails.com"]
   "cx-analysts-api" = ["group:product_team@supertails.com", "group:cx.apps@supertails.com"]
   "cx-analysts-api-staging" = ["group:product_team@supertails.com", "group:cx.apps@supertails.com"]
-  "henlo-creative" = ["group:product_team@supertails.com", "group:henlo-creative@supertails.com", "user:stalinlovespets@supertails.com"]
-  "dsops": ["group:product_team@supertails.com", "group:dropship-ops@supertails.com"]
+  "henlo-creative" = ["group:product_team@supertails.com", "user:stalinlovespets@supertails.com"]
+  "dsops": ["group:product_team@supertails.com", "group:dropship-ops@supertails.com","domain:supertails.com" ]
 }
