@@ -5,7 +5,8 @@ resource "google_project_service" "apis" {
     "run.googleapis.com",
     "iap.googleapis.com",
     "iam.googleapis.com",
-    "secretmanager.googleapis.com"
+    "secretmanager.googleapis.com",
+    "cloudscheduler.googleapis.com"
   ])
 
   service            = each.value
@@ -129,10 +130,26 @@ resource "google_iap_web_backend_service_iam_binding" "iap_access" {
   web_backend_service = google_compute_backend_service.backend[each.key].name
   role                = "roles/iap.httpsResourceAccessor"
   members             = tolist(lookup(var.iap_route_access, each.key, var.iap_access_members))
+
+  depends_on = [google_service_account.scheduler_decision_engine]
 }
 
 data "google_project" "project" {
   project_id = var.project_id
+}
+
+# ── Cloud Scheduler service account for decision-engine (CRM) ────────────────
+
+resource "google_service_account" "scheduler_decision_engine" {
+  account_id   = "scheduler-decision-engine"
+  display_name = "Cloud Scheduler – decision-engine"
+  project      = var.project_id
+}
+
+resource "google_service_account_iam_member" "scheduler_de_act_as" {
+  service_account_id = google_service_account.scheduler_decision_engine.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-cloudscheduler.iam.gserviceaccount.com"
 }
 
 # HTTPS LB + serverless NEG: allow Google's Serverless robot to invoke each Cloud Run service.

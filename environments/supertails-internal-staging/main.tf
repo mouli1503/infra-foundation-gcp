@@ -5,7 +5,8 @@ resource "google_project_service" "apis" {
     "run.googleapis.com",
     "iap.googleapis.com",
     "iam.googleapis.com",
-    "secretmanager.googleapis.com"
+    "secretmanager.googleapis.com",
+    "cloudscheduler.googleapis.com"
   ])
 
   service            = each.value
@@ -138,6 +139,20 @@ resource "google_iap_web_backend_service_iam_binding" "iap_access" {
 
 data "google_project" "project" {
   project_id = var.project_id
+}
+
+# ── Cloud Scheduler service account for inv-engine ───────────────────────────
+
+resource "google_service_account" "scheduler_inv_engine" {
+  account_id   = "scheduler-inv-engine"
+  display_name = "Cloud Scheduler – inv-engine"
+  project      = var.project_id
+}
+
+resource "google_service_account_iam_member" "scheduler_sa_act_as" {
+  service_account_id = google_service_account.scheduler_inv_engine.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-cloudscheduler.iam.gserviceaccount.com"
 }
 
 # HTTPS LB + serverless NEG: allow Google's Serverless robot to invoke each Cloud Run service.
