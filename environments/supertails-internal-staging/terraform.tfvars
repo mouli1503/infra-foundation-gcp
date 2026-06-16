@@ -14,12 +14,13 @@ routes = {
     inv-engine = "inventory-engine"
     pricing-engine = "pricing-engine"
     demo = "hello"
+    pricing-engine-prod = "pricing-engine-prod"
 }
 
 iap_callback_route = null
 
 # Add the route keys that should be IAP-protected, e.g. ["hello"]
-iap_protected_routes = ["demo", "inv-engine", "pricing-engine"]
+iap_protected_routes = ["demo", "inv-engine", "pricing-engine", "pricing-engine-prod"]
 
 # Create an OAuth 2.0 Client ID in this project (APIs & Services -> Credentials),
 # then store its secret in Secret Manager under the name below.
@@ -37,4 +38,5 @@ iap_route_access = {
     "demo" = ["group:product_team@supertails.com", "serviceAccount:scheduler-inv-engine@internal-apps-staging.iam.gserviceaccount.com"]
     "inv-engine" = ["group:product_team@supertails.com", "domain:supertails.com", "serviceAccount:scheduler-inv-engine@internal-apps-staging.iam.gserviceaccount.com"]
     "pricing-engine" = ["group:product_team@supertails.com", "domain:supertails.com"]
+    "pricing-engine-prod" = ["group:product_team@supertails.com", "domain:supertails.com"]
 }
