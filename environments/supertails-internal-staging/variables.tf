@@ -44,6 +44,30 @@ variable "iap_route_access" {
   default     = {}
 }
 
+variable "secrets" {
+  description = "Secret Manager secrets to create in this project: secret_id => secret value. Values supplied via gitignored secrets.auto.tfvars. Not marked sensitive at the variable level (sensitive vars can't be used in for_each); the values are redacted in plan/apply because secret_version.secret_data is sensitive and wrapped in sensitive()."
+  type        = map(string)
+  default     = {}
+}
+
+variable "secret_accessors" {
+  description = "Default members granted roles/secretmanager.secretAccessor on every secret (e.g. the Cloud Run runtime service account, serviceAccount:...@internal-apps-staging.iam.gserviceaccount.com)."
+  type        = set(string)
+  default     = []
+}
+
+variable "secret_access_overrides" {
+  description = "Per-secret accessor overrides: secret_id => set of members. Overrides secret_accessors for that secret only."
+  type        = map(set(string))
+  default     = {}
+}
+
+variable "route_host_overrides" {
+  description = "Optional per-route explicit host (FQDN) overrides. route_key -> host. Use when the desired host doesn't fit the {route_key}.{domain} pattern (e.g. multi-label subdomains). Resource names still derive from route_key, which must be dot-free."
+  type        = map(string)
+  default     = {}
+}
+
 variable "default_route" {
   description = "Route key for default_service (unmatched paths). Unset = first route."
   type        = string

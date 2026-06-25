@@ -23,6 +23,10 @@ backend.hcl
 override.tf
 override.tf.json
 
+# Secret values (auto-loaded by Terraform) - never commit real secret values
+secrets.auto.tfvars
+secrets.tfvars
+
 # OS / editor cruft
 .DS_Store
 .idea/

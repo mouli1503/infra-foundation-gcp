@@ -65,7 +65,10 @@ locals {
   route_keys              = keys(var.routes)
   effective_default_route = coalesce(var.default_route, local.route_keys[0])
   # Host-based: {route_key}.{domain} e.g. hello.apps.staging.supertails.com
-  route_hosts = { for k in local.route_keys : k => "${k}.${var.domain}" }
+  # route_host_overrides lets a route use an explicit FQDN that doesn't fit the
+  # {route_key}.{domain} pattern (e.g. multi-label hosts like control-tower.api.apps.staging.supertails.com).
+  # The route_key still drives GCP resource names (neg-/bs-/pm-) so it must stay dot-free.
+  route_hosts = { for k in local.route_keys : k => lookup(var.route_host_overrides, k, "${k}.${var.domain}") }
 }
 
 resource "google_compute_url_map" "urlmap" {
