@@ -15,7 +15,7 @@ routes = {
     pricing-engine = "pricing-engine"
     demo = "hello"
     pricing-engine-prod = "pricing-engine-prod"
-    cp = "cost-provision-console-prod"
+    cp = "cost-provision-console-staging"
     control-tower = "control-tower-frontend"
     control-tower-api = "control-tower-backend"
 }
