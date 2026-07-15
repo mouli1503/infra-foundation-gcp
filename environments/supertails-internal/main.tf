@@ -30,7 +30,7 @@ data "google_secret_manager_secret_version" "iap_secret" {
 
 resource "google_compute_region_network_endpoint_group" "serverless_neg" {
   for_each              = var.routes
-  name                  = "neg-${each.key}"
+  name                  = "neg-${replace(each.key, ".", "-")}"
   region                = var.region
   network_endpoint_type = "SERVERLESS"
 
@@ -41,7 +41,7 @@ resource "google_compute_region_network_endpoint_group" "serverless_neg" {
 
 resource "google_compute_backend_service" "backend" {
   for_each              = var.routes
-  name                  = "bs-${each.key}"
+  name                  = "bs-${replace(each.key, ".", "-")}"
   protocol              = "HTTP"
   load_balancing_scheme = "EXTERNAL"
 
@@ -77,7 +77,7 @@ resource "google_compute_url_map" "urlmap" {
     for_each = var.routes
     content {
       hosts        = [local.route_hosts[host_rule.key]]
-      path_matcher = "pm-${host_rule.key}"
+      path_matcher = "pm-${replace(host_rule.key, ".", "-")}"
     }
   }
 
@@ -85,7 +85,7 @@ resource "google_compute_url_map" "urlmap" {
   dynamic "path_matcher" {
     for_each = var.routes
     content {
-      name            = "pm-${path_matcher.key}"
+      name            = "pm-${replace(path_matcher.key, ".", "-")}"
       default_service = google_compute_backend_service.backend[path_matcher.key].id
     }
   }

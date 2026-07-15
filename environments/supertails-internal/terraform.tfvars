@@ -15,6 +15,8 @@ routes = {
   dsops="dropship-ops-automator"
   pma-v2-staging = "pma-v2-frontend-staging"
   pma-v2-api-staging = "pma-v2-api-staging"
+  "api.comos" = "comms-os-backend"
+  "portal.comos" = "comms-os-frontend"
 }
 
 iap_callback_route = null
