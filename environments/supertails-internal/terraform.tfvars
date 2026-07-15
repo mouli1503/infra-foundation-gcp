@@ -12,16 +12,17 @@ routes = {
   cx-analysts-api-staging="cx-data-analysts-staging"
   henlo-creative="henlo-creative"
   atlas = "atlas"
-  dsops="dropship-ops-automator"
+  category="dropship-ops-automator"
   pma-v2-staging = "pma-v2-frontend-staging"
   pma-v2-api-staging = "pma-v2-api-staging"
   "api.comos" = "comms-os-backend"
   "portal.comos" = "comms-os-frontend"
+  "portal.pricing-engine" = "pricing-engine"
 }
 
 iap_callback_route = null
 
-iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative", "dsops", "pma-v2-staging", "pma-v2-api-staging"]
+iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative", "category", "pma-v2-staging", "pma-v2-api-staging", "portal.pricing-engine"]
 
 iap_oauth_client_id             = "158581135398-eft452itu9n28iko8ooevml29c3pp3t8.apps.googleusercontent.com"
 iap_oauth_client_secret_secret_id = "iap-oauth-client-secret"
@@ -38,7 +39,8 @@ iap_route_access = {
   "cx-analysts-api" = ["group:product_team@supertails.com", "group:cx.apps@supertails.com"]
   "cx-analysts-api-staging" = ["group:product_team@supertails.com", "group:cx.apps@supertails.com"]
   "henlo-creative" = ["group:product_team@supertails.com", "user:stalinlovespets@supertails.com"]
-  "dsops": ["group:product_team@supertails.com", "group:dropship-ops@supertails.com","domain:supertails.com" ]
+  "category": ["group:product_team@supertails.com", "group:dropship-ops@supertails.com","domain:supertails.com" ]
   "pma-v2-staging" = ["domain:supertails.com"]
   "pma-v2-api-staging" = ["domain:supertails.com"]
+  "portal.pricing-engine" = ["domain:supertails.com"]
 }
