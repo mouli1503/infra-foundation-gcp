@@ -12,6 +12,7 @@ domain     = "apps.staging.supertails.com"
 # }
 routes = {
     inv-engine = "inventory-engine"
+    inv-engine-staging = "inventory-engine-staging"
     pricing-engine = "pricing-engine"
     demo = "hello"
     pricing-engine-prod = "pricing-engine-prod"
@@ -24,12 +25,13 @@ routes = {
 # control-tower-api -> control-tower.api.apps.staging.supertails.com (two custom labels).
 route_host_overrides = {
     control-tower-api = "control-tower.api.apps.staging.supertails.com"
+    inv-engine-staging = "inv-engine.dev.apps.staging.supertails.com"
 }
 
 iap_callback_route = null
 
 # Add the route keys that should be IAP-protected, e.g. ["hello"]
-iap_protected_routes = ["demo", "inv-engine", "pricing-engine", "pricing-engine-prod", "cp", "control-tower", "control-tower-api"]
+iap_protected_routes = ["demo", "inv-engine", "inv-engine-staging", "pricing-engine", "pricing-engine-prod", "cp", "control-tower", "control-tower-api"]
 
 # Create an OAuth 2.0 Client ID in this project (APIs & Services -> Credentials),
 # then store its secret in Secret Manager under the name below.
@@ -46,6 +48,7 @@ iap_access_members = []
 iap_route_access = {
     "demo" = ["group:product_team@supertails.com", "serviceAccount:scheduler-inv-engine@internal-apps-staging.iam.gserviceaccount.com"]
     "inv-engine" = ["group:product_team@supertails.com", "domain:supertails.com", "serviceAccount:scheduler-inv-engine@internal-apps-staging.iam.gserviceaccount.com"]
+    "inv-engine-staging" = ["group:product_team@supertails.com", "domain:supertails.com", "serviceAccount:scheduler-inv-engine@internal-apps-staging.iam.gserviceaccount.com"]
     "pricing-engine" = ["group:product_team@supertails.com", "domain:supertails.com"]
     "pricing-engine-prod" = ["group:product_team@supertails.com", "domain:supertails.com", "serviceAccount:pe-cron-scheduler@internal-apps-staging.iam.gserviceaccount.com"]
     "cp" = ["group:product_team@supertails.com", "domain:supertails.com"]

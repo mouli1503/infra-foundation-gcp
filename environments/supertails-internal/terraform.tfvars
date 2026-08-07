@@ -18,11 +18,12 @@ routes = {
   "api.comos" = "comms-os-backend"
   "portal.comos" = "comms-os-frontend"
   "portal.pricing-engine" = "pricing-engine"
+  shopify-proxy           = "shopify-proxy"
 }
 
 iap_callback_route = null
 
-iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative", "category", "pma-v2-staging", "pma-v2-api-staging", "portal.pricing-engine"]
+iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative", "category", "pma-v2-staging", "pma-v2-api-staging", "portal.pricing-engine", "shopify-proxy"]
 
 iap_oauth_client_id             = "158581135398-eft452itu9n28iko8ooevml29c3pp3t8.apps.googleusercontent.com"
 iap_oauth_client_secret_secret_id = "iap-oauth-client-secret"
@@ -43,4 +44,5 @@ iap_route_access = {
   "pma-v2-staging" = ["domain:supertails.com"]
   "pma-v2-api-staging" = ["domain:supertails.com"]
   "portal.pricing-engine" = ["domain:supertails.com"]
+  "shopify-proxy" = ["domain:supertails.com", "user:nabheet.scn@gmail.com", "user:msbinarydev@gmail.com", "user:baburakesh2308@gmail.com"]
 }
