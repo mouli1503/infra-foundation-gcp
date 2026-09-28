@@ -27,8 +27,8 @@ iap_access_members = [
 ]
 
 iap_route_access = {
-  "atc"         = ["group:product_team@supertails.com"]
-  "atc-staging" = ["group:product_team@supertails.com"]
+  "atc"         = ["group:product_team@supertails.com", "group:airtrafficcontrol@supertails.com"]
+  "atc-staging" = ["group:product_team@supertails.com", "group:airtrafficcontrol@supertails.com"]
 }
 
 # GitHub Workload Identity Federation (CI/CD)

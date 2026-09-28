@@ -19,11 +19,15 @@ routes = {
   "portal.comos" = "comms-os-frontend"
   "portal.pricing-engine" = "pricing-engine"
   shopify-proxy           = "shopify-proxy"
+  breach-explorer         = "breach-explorer"
+  "api.scribe" = "scribe-api-server"
+  "api.retention" = "retention-dashboard-backend"
+  "portal.retention" = "retention-dashboard-frontend"
 }
 
 iap_callback_route = null
 
-iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative", "category", "pma-v2-staging", "pma-v2-api-staging", "portal.pricing-engine", "shopify-proxy"]
+iap_protected_routes = ["decision-engine", "decision-engine-staging", "pma", "pma-staging", "cx-analysts-api", "cx-analysts-api-staging", "henlo-creative", "category", "pma-v2-staging", "pma-v2-api-staging", "portal.pricing-engine", "shopify-proxy", "breach-explorer", "portal.comos", "portal.retention"]
 
 iap_oauth_client_id             = "158581135398-eft452itu9n28iko8ooevml29c3pp3t8.apps.googleusercontent.com"
 iap_oauth_client_secret_secret_id = "iap-oauth-client-secret"
@@ -33,7 +37,7 @@ iap_access_members = [
 ]
 
 iap_route_access = {
-  "decision-engine" = ["group:product_team@supertails.com", "group:crm-decision-engine@supertails.com", "serviceAccount:scheduler-decision-engine@sup-internal-apps.iam.gserviceaccount.com"]
+  "decision-engine" = ["group:product_team@supertails.com", "group:crm-decision-engine@supertails.com", "serviceAccount:scheduler-decision-engine@sup-internal-apps.iam.gserviceaccount.com", "serviceAccount:cloud-scheduler@sup-internal-apps.iam.gserviceaccount.com"]
   "decision-engine-staging" = ["group:product_team@supertails.com", "group:crm-decision-engine@supertails.com"]
   "pma" = ["group:product_team@supertails.com", "group:crm-decision-engine@supertails.com"]
   "pma-staging" = ["group:product_team@supertails.com", "group:crm-decision-engine@supertails.com"]
@@ -45,4 +49,7 @@ iap_route_access = {
   "pma-v2-api-staging" = ["domain:supertails.com"]
   "portal.pricing-engine" = ["domain:supertails.com"]
   "shopify-proxy" = ["domain:supertails.com", "user:nabheet.scn@gmail.com", "user:msbinarydev@gmail.com", "user:baburakesh2308@gmail.com"]
+  "breach-explorer" = ["domain:supertails.com"]
+  "portal.comos" = ["domain:supertails.com"]
+  "portal.retention" = ["domain:supertails.com"]
 }
